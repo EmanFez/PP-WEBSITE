@@ -27,10 +27,11 @@ html {
 body {
     background: #f5f7fb;
     color: #222;
+    line-height: 1.65;
 }
 
 .container {
-    width: 90%;
+    width: min(95%, 1300px);
     max-width: 1300px;
     margin: auto;
 }
@@ -63,6 +64,54 @@ body {
     color: #666;
     margin-top: 10px;
     font-size: 16px;
+}
+
+/* --- Text Hover Effect --- */
+body, body * {
+    transition: color .28s ease, text-shadow .28s ease, transform .28s ease;
+}
+
+p:hover,
+h1:hover,
+h2:hover,
+h3:hover,
+h4:hover,
+h5:hover,
+h6:hover,
+li:hover,
+span:hover,
+strong:hover,
+em:hover,
+small:hover,
+label:hover {
+    color: #ff8c00;
+    text-shadow: 0 0 10px rgba(255,255,255,0.35), 0 0 20px rgba(255,102,0,0.12);
+    transform: translateY(-1px);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+span,
+strong,
+em,
+small,
+label {
+    cursor: text;
+}
+
+/* Ensure links still show pointer */
+a,
+button,
+input,
+textarea,
+select {
+    cursor: pointer;
 }
 
 /* --- Top Bar --- */
@@ -112,6 +161,11 @@ header .container {
 
 .logo img {
     height: 60px;
+    width: auto;
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    background: white;
+    padding: 4px;
 }
 
 nav ul {
@@ -137,16 +191,26 @@ nav a:hover {
 .quote {
     background: #ff6600;
     padding: 10px 25px;
-    border-radius: 50px;
+    border-radius: 26px;
     text-decoration: none;
     color: white;
     font-weight: 700;
     transition: .3s;
+    border: 2px solid rgba(255,255,255,0.18);
+    box-shadow: 0 12px 25px rgba(255,102,0,0.18);
+    animation: vibrate 2.5s ease-in-out infinite;
 }
 
 .quote:hover {
     background: white;
     color: #ff6600;
+    box-shadow: 0 12px 25px rgba(255,102,0,0.12);
+}
+
+@keyframes vibrate {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-1px); }
+    20%, 40%, 60%, 80% { transform: translateX(1px); }
 }
 
 /* --- Hero Section --- */
@@ -181,14 +245,26 @@ nav a:hover {
     margin-bottom: 20px;
 }
 
-.hero h1 {
+.hero-title,
+.hero-subtitle {
     font-size: 65px;
     line-height: 1.1;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+    transition: color .3s ease, text-shadow .3s ease;
+    text-shadow: 0 0 18px rgba(255, 102, 0, 0.35);
 }
 
-.hero h1 span {
+.hero-title {
+    color: white;
+}
+
+.hero-subtitle {
     color: #ff6600;
+}
+
+.hero-title:hover,
+.hero-subtitle:hover {
+    text-shadow: 0 0 30px rgba(255, 102, 0, 0.95);
 }
 
 .hero p {
@@ -292,18 +368,23 @@ nav a:hover {
 /* --- Services Section --- */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
 }
 
 .service-card {
     background: white;
-    padding: 40px 30px;
-    border-radius: 10px;
+    padding: 35px 25px;
+    border-radius: 14px;
     text-align: center;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
     transition: .3s;
     border-bottom: 4px solid transparent;
+    cursor: pointer;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .service-card:hover {
@@ -317,6 +398,68 @@ nav a:hover {
     color: #ff6600;
     margin-bottom: 20px;
 }
+
+.service-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.service-modal.active {
+    display: flex;
+}
+
+.service-modal-content {
+    max-width: 760px;
+    width: 100%;
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.service-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: #ff6600;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.service-modal h3 {
+    font-size: 28px;
+    color: #051428;
+    margin-bottom: 20px;
+}
+
+.service-modal p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.service-modal ul {
+    list-style: disc inside;
+    color: #444;
+    margin-left: 10px;
+}
+
+.service-modal li {
+    margin-bottom: 10px;
+}
+
 
 .service-card h3 {
     font-size: 22px;
@@ -332,8 +475,8 @@ nav a:hover {
 /* --- Products Section --- */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
 }
 
 .product-card {
@@ -366,57 +509,103 @@ nav a:hover {
 }
 
 /* --- Gallery Section --- */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.gallery-item {
-    position: relative;
+.media-slider-wrapper {
     overflow: hidden;
-    border-radius: 10px;
-    height: 250px;
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    margin-bottom: 30px;
+    position: relative;
 }
 
-.gallery-item img {
+.media-slider {
+    display: flex;
+    gap: 20px;
+    min-width: max-content;
+    animation: slide 45s linear infinite alternate;
+}
+
+.media-item {
+    min-width: 400px;
+    height: 320px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    background: #f5f7fb;
+}
+
+.media-item img,
+.media-item video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: .5s;
+    display: block;
 }
 
-.gallery-item:hover img {
-    transform: scale(1.1);
+.media-item.video-item {
+    cursor: pointer;
 }
 
-.gallery-overlay {
+.media-item .video-play {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(5,20,40,.8);
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    transition: .3s;
-}
-
-.gallery-item:hover .gallery-overlay {
-    opacity: 1;
-}
-
-.gallery-overlay i {
+    background: rgba(0,0,0,0.28);
     color: white;
-    font-size: 30px;
-    background: #ff6600;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    text-align: center;
+    font-size: 48px;
+}
+
+.media-popup {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.82);
+    z-index: 2000;
+    padding: 20px;
+}
+
+.media-popup.active {
+    display: flex;
+}
+
+.media-popup-content {
+    width: min(950px, 100%);
+    max-width: 950px;
+    background: #111;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.media-popup-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: rgba(255,255,255,0.16);
+    color: white;
+    font-size: 28px;
     border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.media-popup video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@keyframes slide {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(calc(-50% + 420px)); }
+    100% { transform: translateX(0); }
 }
 
 /* --- Contact Section --- */
@@ -628,19 +817,90 @@ footer {
 /* --- Responsive Layout --- */
 @media(max-width: 991px) {
     .topbar { display: none; }
-    nav { display: none; }
     header { top: 0; }
+    header .container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    nav {
+        display: block;
+        width: 100%;
+    }
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    nav li {
+        margin-left: 0;
+    }
+    .quote {
+        width: 100%;
+        text-align: center;
+    }
+    .hero {
+        min-height: calc(100vh - 110px);
+        padding-top: 100px;
+        background-position: center top;
+    }
     .hero h1 { font-size: 42px; }
     .hero p { font-size: 17px; }
     .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 30px 20px; min-height: auto; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .contact-info, .contact-form { padding: 30px; }
     .footer-grid { grid-template-columns: 1fr; text-align: center; }
     .social-icons { justify-content: center; display: flex; }
+    .whatsapp, .call {
+        right: 15px;
+    }
 }
 
 @media(max-width: 576px) {
-    .hero h1 { font-size: 36px; }
+    body {
+        font-size: 15px;
+    }
+    header .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero h1 { font-size: 34px; }
+    .hero p { font-size: 16px; }
+    .buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
     .quote { display: none; }
     .about-features { grid-template-columns: 1fr; }
+    .service-card { padding: 25px 18px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .gallery-item { height: 200px; }
+    .contact-info, .contact-form { padding: 25px; }
+    .service-modal-content {
+        padding: 20px;
+        max-width: 100%;
+    }
+    .service-modal-close {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+    }
+    .whatsapp, .call {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        bottom: 20px;
+    }
+    .call { bottom: 80px; }
 }
 </style>
 </head>
@@ -665,8 +925,7 @@ footer {
 <header>
     <div class="container">
         <div class="logo">
-            <!-- User: Replace with your original logo path -->
-            <img src="assets/images/logo.png" alt="Powerpoint Logo">
+            <img src="pp-logo.png" alt="Powerpoint Logo">
         </div>
         <nav>
             <ul>
@@ -679,7 +938,7 @@ footer {
                 <li><a href="#" onclick="showMaintenance(event)">Contact</a></li>
             </ul>
         </nav>
-        <a class="quote" href="#" onclick="showMaintenance(event)">Get Quote</a>
+        <a class="quote" href="https://wa.me/917010280852?text=Hi%20%2C%20I%E2%80%99m%20looking%20for%20CCTV%20installation%20for%20my%20home%2Foffice.%20Could%20you%20please%20send%20me%20a%20quotation%3F" target="_blank">Get Quote</a>
     </div>
 </header>
 
@@ -687,7 +946,8 @@ footer {
 <section class="hero" id="home">
     <div class="container hero-content">
         <h3>WELCOME TO</h3>
-        <h1>POWERPOINT <br><span>CCTV & NETWORKS</span></h1>
+        <h1 class="hero-title">POWERPOINT</h1>
+        <h2 class="hero-subtitle">CCTV & NETWORKS</h2>
         <p>Professional CCTV Surveillance, Networking, Biometric, Access Control, Fire Alarm, Fiber & Security Solutions in Karaikal.</p>
         
         <div class="buttons">
@@ -747,35 +1007,44 @@ footer {
         </div>
         
         <div class="services-grid">
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('cctv')">
                 <i class="fa-solid fa-video"></i>
                 <h3>CCTV Surveillance</h3>
                 <p>High-definition IP & Analog camera installations with remote mobile viewing capabilities.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('network')">
                 <i class="fa-solid fa-network-wired"></i>
                 <h3>Networking Solutions</h3>
                 <p>Structured cabling, Wi-Fi setup, router configurations, and complete office LAN/WAN setups.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('biometric')">
                 <i class="fa-solid fa-fingerprint"></i>
                 <h3>Biometrics & Access</h3>
                 <p>Secure your premises with fingerprint, face recognition, and RFID card access control systems.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('fire')">
                 <i class="fa-solid fa-fire"></i>
                 <h3>Fire Alarm Systems</h3>
                 <p>Early detection fire alarms and smoke detectors designed to save lives and property.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('intercom')">
                 <i class="fa-solid fa-phone-volume"></i>
                 <h3>Intercom / EPABX</h3>
                 <p>Seamless internal communication systems for apartments, offices, and large organizations.</p>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="showServiceInfo('fiber')">
                 <i class="fa-solid fa-satellite-dish"></i>
                 <h3>Fiber Optics</h3>
                 <p>High-speed fiber optic splicing, testing, and infrastructure laying for max bandwidth.</p>
+            </div>
+        </div>
+        <div id="service-modal" class="service-modal" onclick="closeServiceModal(event)">
+            <div class="service-modal-content" onclick="event.stopPropagation()">
+                <button class="service-modal-close" onclick="closeServiceModal(event)">&times;</button>
+                <div id="service-modal-body">
+                    <h3>Learn More About Our Services</h3>
+                    <p>Click any service card above to see helpful explanations and customer-friendly service details.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -785,15 +1054,11 @@ footer {
 <section id="products" class="section-padding bg-white">
     <div class="container">
         <div class="section-title">
-            <h2>Brands We <span>Deal With</span></h2>
-            <p>We provide genuine products from industry-leading manufacturers.</p>
+            <h2>Industry Level Brands</h2>
+            <p>Industry level notable brands trusted in security, networking, biometric, and fire protection.</p>
         </div>
         
         <div class="products-grid">
-            <div class="product-card">
-                <i class="fa-solid fa-camera"></i>
-                <h4>Hikvision</h4>
-            </div>
             <div class="product-card">
                 <i class="fa-solid fa-shield"></i>
                 <h4>CP Plus</h4>
@@ -804,41 +1069,107 @@ footer {
             </div>
             <div class="product-card">
                 <i class="fa-solid fa-wifi"></i>
-                <h4>D-Link / TP-Link</h4>
+                <h4>D-Link</h4>
             </div>
             <div class="product-card">
-                <i class="fa-solid fa-server"></i>
-                <h4>Cisco</h4>
+                <i class="fa-solid fa-network-wired"></i>
+                <h4>TP-Link</h4>
+            </div>
+            <div class="product-card">
+                <i class="fa-solid fa-star"></i>
+                <h4>Hi Focus</h4>
+            </div>
+            <div class="product-card">
+                <i class="fa-solid fa-handshake-angle"></i>
+                <h4>Sparsh</h4>
+            </div>
+            <div class="product-card">
+                <i class="fa-solid fa-sitemap"></i>
+                <h4>Prama</h4>
+            </div>
+            <div class="product-card">
+                <i class="fa-solid fa-building"></i>
+                <h4>Godrej</h4>
+            </div>
+            <div class="product-card" onclick="showBrandInfo()">
+                <i class="fa-solid fa-thumbs-up"></i>
+                <h4>Notable Brands</h4>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Gallery Section -->
-<section id="gallery" class="section-padding">
+<div id="brand-modal" class="service-modal" onclick="closeBrandModal(event)">
+    <div class="service-modal-content" onclick="event.stopPropagation()">
+        <button class="service-modal-close" onclick="closeBrandModal(event)">&times;</button>
+        <div id="brand-modal-body">
+            <h3>Notable Brand Partners</h3>
+            <p>Explore the key brands featured under this category:</p>
+            <ul>
+                <li>Secureye</li>
+                <li>Eyeon</li>
+                <li>Gopix</li>
+                <li>Uneplus</li>
+                <li>Powerplus</li>
+                <li>UNV</li>
+                <li>and more...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Projects Section -->
     <div class="container">
         <div class="section-title">
             <h2>Recent <span>Projects</span></h2>
             <p>A glimpse into our recent installations and setups.</p>
         </div>
         
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=600&auto=format&fit=crop" alt="Project 1">
-                <div class="gallery-overlay"><i class="fa-solid fa-plus"></i></div>
+        <div class="media-slider-wrapper">
+            <div class="media-slider">
+                <div class="media-item"><img src="e-assests/1.jpg" alt="Project Photo 1"></div>
+                <div class="media-item"><img src="e-assests/2.jpg" alt="Project Photo 2"></div>
+                <div class="media-item"><img src="e-assests/3.jpg" alt="Project Photo 3"></div>
+                <div class="media-item"><img src="e-assests/4.jpg" alt="Project Photo 4"></div>
+                <div class="media-item"><img src="e-assests/5.jpg" alt="Project Photo 5"></div>
+                <div class="media-item"><img src="e-assests/6.jpg" alt="Project Photo 6"></div>
+                <div class="media-item"><img src="e-assests/7.jpg" alt="Project Photo 7"></div>
+                <div class="media-item"><img src="e-assests/8.jpg" alt="Project Photo 8"></div>
+                <div class="media-item video-item" onclick="openMediaPopup('e-assests/9.mp4')">
+                    <img src="e-assests/1.jpg" alt="Project Video Preview">
+                    <div class="video-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="media-item video-item" onclick="openMediaPopup('e-assests/10.mp4')">
+                    <img src="e-assests/2.jpg" alt="Project Video Preview">
+                    <div class="video-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="media-item"><img src="e-assests/1.jpg" alt="Project Photo 1"></div>
+                <div class="media-item"><img src="e-assests/2.jpg" alt="Project Photo 2"></div>
+                <div class="media-item"><img src="e-assests/3.jpg" alt="Project Photo 3"></div>
+                <div class="media-item"><img src="e-assests/4.jpg" alt="Project Photo 4"></div>
+                <div class="media-item"><img src="e-assests/5.jpg" alt="Project Photo 5"></div>
+                <div class="media-item"><img src="e-assests/6.jpg" alt="Project Photo 6"></div>
+                <div class="media-item"><img src="e-assests/7.jpg" alt="Project Photo 7"></div>
+                <div class="media-item"><img src="e-assests/8.jpg" alt="Project Photo 8"></div>
+                <div class="media-item video-item" onclick="openMediaPopup('e-assests/9.mp4')">
+                    <img src="e-assests/1.jpg" alt="Project Video Preview">
+                    <div class="video-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="media-item video-item" onclick="openMediaPopup('e-assests/10.mp4')">
+                    <img src="e-assests/2.jpg" alt="Project Video Preview">
+                    <div class="video-play"><i class="fa-solid fa-play"></i></div>
+                </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=600&auto=format&fit=crop" alt="Project 2">
-                <div class="gallery-overlay"><i class="fa-solid fa-plus"></i></div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1550503195-21d3f92de27b?q=80&w=600&auto=format&fit=crop" alt="Project 3">
-                <div class="gallery-overlay"><i class="fa-solid fa-plus"></i></div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1563207153-f403bf289096?q=80&w=600&auto=format&fit=crop" alt="Project 4">
-                <div class="gallery-overlay"><i class="fa-solid fa-plus"></i></div>
-            </div>
+        </div>
+    </div>
+
+    <div id="media-popup" class="media-popup" onclick="closeMediaPopup(event)">
+        <div class="media-popup-content" onclick="event.stopPropagation()">
+            <button class="media-popup-close" onclick="closeMediaPopup(event)">&times;</button>
+            <video id="media-video-player" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
         </div>
     </div>
 </section>
@@ -910,7 +1241,7 @@ footer {
     <div class="container">
         <div class="footer-grid">
             <div class="footer-about">
-                <h2 style="color: white; margin-bottom: 15px; font-weight: 800;">POWERPOINT <span style="color:#ff6600">CCTV</span></h2>
+                <h2 style="color: white; margin-bottom: 15px; font-weight: 800;">POWERPOINT CCTV & NETWORKS</h2>
                 <p>Your ultimate destination for professional CCTV surveillance, structured networking, biometric access, and total security solutions in Karaikal and surrounding areas.</p>
                 <div class="social-icons">
                     <a href="#" onclick="showMaintenance(event)"><i class="fa-brands fa-facebook-f"></i></a>
@@ -926,6 +1257,7 @@ footer {
                     <li><a href="https://bookfibre.bsnl.co.in/#plans" target="_blank">Fiber Plans</a></li>
                     <li><a href="#" onclick="showMaintenance(event)">About Us</a></li>
                     <li><a href="#" onclick="showMaintenance(event)">Project Gallery</a></li>
+                    <li><a href="https://wa.me/917010280852?text=Hello%2C%20I%E2%80%99m%20%5BYour%20Name%5D.%20I%E2%80%99d%20like%20to%20know%20if%20there%20are%20any%20job%20vacancies%20at%20POWERPOINT%20CCTV%20%26%20NETWORKS.%20Please%20let%20me%20know.%20Thank%20you." target="_blank">JOB</a></li>
                 </ul>
             </div>
             
@@ -941,7 +1273,7 @@ footer {
         </div>
         
         <div class="copyright">
-            <p>&copy; 2024 <span>POWERPOINT CCTV & NETWORKS</span>. All Rights Reserved.</p>
+            <p>&copy; 2026 <span>POWERPOINT CCTV & NETWORKS</span>. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
@@ -959,6 +1291,149 @@ footer {
 function showMaintenance(e) {
     e.preventDefault();
     alert("Website Under Maintenance. This page will be available soon.");
+}
+
+function showServiceInfo(type) {
+    const modal = document.getElementById('service-modal');
+    const body = document.getElementById('service-modal-body');
+    let title = 'Learn More About Our Services';
+    let html = '<p>Click any service card above to see helpful explanations and customer-friendly service details.</p>';
+
+    switch (type) {
+        case 'cctv':
+            title = 'CCTV Surveillance Overview';
+            html = `
+                <p>We offer a range of CCTV cameras to suit different needs and locations:</p>
+                <ul>
+                    <li><strong>Dome Cameras</strong> - discreet indoor/outdoor use with wide-angle coverage.</li>
+                    <li><strong>Bullet Cameras</strong> - long-range viewing ideal for entrances and parking areas.</li>
+                    <li><strong>PTZ Cameras</strong> - pan, tilt, and zoom control for active monitoring of large spaces.</li>
+                    <li><strong>ANPR / LPR Cameras</strong> - automatic number plate recognition for vehicle identification and access control.</li>
+                </ul>
+                <p>This helps you choose the right camera for homes, shops, offices, and secure sites.</p>
+            `;
+            break;
+        case 'network':
+            title = 'Networking Solutions Explained';
+            html = `
+                <p>We design and install reliable networks so your office and Wi-Fi work smoothly:</p>
+                <ul>
+                    <li><strong>Wi-Fi Setup</strong> - planning access point placement, coverage, and performance for stable wireless connectivity.</li>
+                    <li><strong>Office LAN Setup</strong> - structured cabling, switches, routers, and secure internal network design.</li>
+                    <li><strong>Network Management</strong> - traffic optimization, security, and device connectivity for fast business operations.</li>
+                </ul>
+                <p>Good network design keeps your computers, printers, phones, and Wi-Fi devices working together without interruption.</p>
+            `;
+            break;
+        case 'biometric':
+            title = 'Biometric Access Control';
+            html = `
+                <p>Biometric systems make access secure and convenient:</p>
+                <ul>
+                    <li><strong>Fingerprint Readers</strong> - fast and reliable for employee entry and attendance.</li>
+                    <li><strong>Face Recognition</strong> - touchless access using facial biometrics for offices and gated areas.</li>
+                    <li><strong>RFID / Card Systems</strong> - optional card-based access for mixed authentication setups.</li>
+                </ul>
+                <p>These systems help control who enters sensitive areas while reducing duplicate keys and passwords.</p>
+            `;
+            break;
+        case 'fire':
+            title = 'Fire Alarm Systems';
+            html = `
+                <p>Our fire safety services protect people and property with smart detection:</p>
+                <ul>
+                    <li><strong>Smoke Detectors</strong> - early warning for hidden smoke and fire risks.</li>
+                    <li><strong>Heat Sensors</strong> - ideal for kitchens, server rooms, and areas where smoke detectors are not suitable.</li>
+                    <li><strong>Alarm Panels</strong> - central control for alarm activation and system status monitoring.</li>
+                </ul>
+                <p>Proper fire alarm placement and maintenance is critical for quick response during emergencies.</p>
+            `;
+            break;
+        case 'intercom':
+            title = 'Intercom & EPABX Systems';
+            html = `
+                <p>We install communication systems that improve internal and entry communication:</p>
+                <ul>
+                    <li><strong>Intercom Systems</strong> - audio/video entry communication for apartments, offices, and security gates.</li>
+                    <li><strong>EPABX Systems</strong> - internal phone extension setup for smooth office communication.</li>
+                    <li><strong>Door Access Integration</strong> - connect intercoms with gates and doors for visitor verification.</li>
+                </ul>
+                <p>These solutions make it easy to manage visitors and keep staff connected.</p>
+            `;
+            break;
+        case 'fiber':
+            title = 'Fiber Optic Services';
+            html = `
+                <p>Fiber optic services deliver high-speed connectivity for demanding applications:</p>
+                <ul>
+                    <li><strong>Splicing & Testing</strong> - precise fiber connections with signal loss checks.</li>
+                    <li><strong>Infrastructure Laying</strong> - building fiber routes for offices, apartments, and campuses.</li>
+                    <li><strong>Bandwidth Optimization</strong> - ensuring your network supports fast internet and data transfer.</li>
+                </ul>
+                <p>Fiber is ideal for businesses that need dependable, high-speed internet and network links.</p>
+            `;
+            break;
+        default:
+            html = '<p>Select a service above to view a short customer-friendly explanation.</p>';
+            break;
+    }
+
+    body.innerHTML = `<h3>${title}</h3>${html}`;
+    modal.classList.add('active');
+}
+
+function showBrandInfo() {
+    const modal = document.getElementById('brand-modal');
+    modal.classList.add('active');
+}
+
+function closeBrandModal(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const modal = document.getElementById('brand-modal');
+    modal.classList.remove('active');
+}
+
+const sliderWrapper = document.querySelector('.media-slider-wrapper');
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (sliderWrapper) {
+        sliderWrapper.style.overflow = 'hidden';
+    }
+});
+});
+
+function openMediaPopup(videoUrl) {
+    const popup = document.getElementById('media-popup');
+    const video = document.getElementById('media-video-player');
+    const source = video.querySelector('source');
+    source.src = videoUrl;
+    video.load();
+    popup.classList.add('active');
+    video.play();
+}
+
+function closeMediaPopup(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const popup = document.getElementById('media-popup');
+    const video = document.getElementById('media-video-player');
+    video.pause();
+    video.currentTime = 0;
+    const source = video.querySelector('source');
+    source.src = '';
+    video.load();
+    popup.classList.remove('active');
+}
+
+function closeServiceModal(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    const modal = document.getElementById('service-modal');
+    modal.classList.remove('active');
 }
 </script>
 
